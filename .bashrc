@@ -113,6 +113,9 @@ if ! shopt -oq posix; then
   fi
 fi
 
+# general changes
+alias apt='sudo apt'
+
 # work changes
 ulimit -n 2048
 
