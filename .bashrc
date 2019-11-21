@@ -115,6 +115,7 @@ fi
 
 # general changes
 alias apt='sudo apt'
+alias syu='sudo apt update && sudo apt upgrade'
 
 # work changes
 ulimit -n 2048
@@ -129,3 +130,4 @@ function update-facts {
 
 alias pfacts=update-facts
 alias facts='cd ~/code/x'
+
