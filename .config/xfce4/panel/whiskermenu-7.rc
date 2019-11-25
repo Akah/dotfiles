@@ -1,5 +1,5 @@
 favorites=emacs.desktop,exo-file-manager.desktop,firefox-esr.desktop,libreoffice-calc.desktop,xfce4-taskmanager.desktop,exo-terminal-emulator.desktop,thunderbird.desktop,code.desktop
-recent=thunderbird.desktop,org.xfce.Catfish.desktop,firefox-esr.desktop,exo-file-manager.desktop,synaptic.desktop,code.desktop,libreoffice-calc.desktop,xfce4-taskmanager.desktop,chromium.desktop,thunar-settings.desktop
+recent=ksnip.desktop,ibus-setup.desktop,gimp.desktop,firefox-esr.desktop,chromium.desktop,libreoffice-calc.desktop,org.xfce.Catfish.desktop,code.desktop,thunderbird.desktop,exo-file-manager.desktop
 button-title=Applications
 button-icon=xfce4-whiskermenu
 button-single-row=false

@@ -17,6 +17,7 @@
         <value type="int" value="5"/>
         <value type="int" value="1"/>
         <value type="int" value="8"/>
+        <value type="int" value="10"/>
         <value type="int" value="6"/>
         <value type="int" value="2"/>
       </property>
@@ -49,7 +50,7 @@
     </property>
     <property name="plugin-5" type="string" value="clock">
       <property name="timezone" type="string" value="Europe/Berlin"/>
-      <property name="digital-format" type="string" value="| %A | %F | %T (%Z) |"/>
+      <property name="digital-format" type="string" value="| %A | %F | %T (%Z) | %s |"/>
       <property name="tooltip-format" type="string" value=""/>
     </property>
     <property name="plugin-6" type="string" value="systray">
@@ -59,6 +60,7 @@
         <value type="string" value="thunar"/>
       </property>
       <property name="names-hidden" type="array">
+        <value type="string" value="ksnip"/>
         <value type="string" value="ibus panel"/>
       </property>
       <property name="show-frame" type="bool" value="false"/>
@@ -71,5 +73,8 @@
       <property name="group-policy" type="uint" value="0"/>
     </property>
     <property name="plugin-8" type="string" value="notification-plugin"/>
+    <property name="plugin-10" type="string" value="pulseaudio">
+      <property name="enable-keyboard-shortcuts" type="bool" value="true"/>
+    </property>
   </property>
 </channel>

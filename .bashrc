@@ -120,14 +120,23 @@ alias syu='sudo apt update && sudo apt upgrade'
 # work changes
 ulimit -n 2048
 
+function commits {
+	if [ $1 == "by" ] 
+	then
+		git log | grep -A5 $2
+	fi
+}
+
 function update-facts {
-    cwd=$(pwd)
-    cd ~/code/x
-    git pull
-    git submodule update --init
-    cd $cwd
+	cwd=$(pwd)
+    	cd ~/code/x
+    	git pull
+    	git submodule update --init
+    	cd $cwd
 }
 
 alias pfacts=update-facts
 alias facts='cd ~/code/x'
+alias mycommits='git log | grep -A5 "Robin"'
+
 
