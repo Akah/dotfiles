@@ -1,4 +1,4 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
+## ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
@@ -116,6 +116,8 @@ fi
 # general changes
 alias apt='sudo apt'
 alias syu='sudo apt update && sudo apt upgrade'
+alias idea='sudo /opt/idea/bin/idea.sh'
+alias pkmn='cd ~/quicklisp/local-projects/pkmn'
 
 # work changes
 ulimit -n 2048
@@ -138,5 +140,3 @@ function update-facts {
 alias pfacts=update-facts
 alias facts='cd ~/code/x'
 alias mycommits='git log | grep -A5 "Robin"'
-
-
