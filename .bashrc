@@ -115,7 +115,7 @@ fi
 
 # general changes
 alias apt='sudo apt'
-alias syu='sudo apt update && sudo apt upgrade'
+alias syu='sudo apt update && sudo apt upgrade ** sudo apt autoremove'
 alias idea='sudo /opt/idea/bin/idea.sh'
 alias pkmn='cd ~/quicklisp/local-projects/pkmn'
 
