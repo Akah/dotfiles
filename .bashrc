@@ -140,3 +140,4 @@ function update-facts {
 alias pfacts=update-facts
 alias facts='cd ~/code/x ; git status'
 alias mycommits='git log | grep -A5 "Robin"'
+alias modified='git status | grep modified | xargs'
