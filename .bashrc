@@ -56,10 +56,15 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
+# add git branch to promt string
+parse_git_branch() {
+     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h \[\033[32m\]\w\[\033[33m\]$(parse_git_branch)\[\033[00m\] λ\[\033[00m\] '
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h \w $(parse_git_branch) λ '
 fi
 unset color_prompt force_color_prompt
 
@@ -123,20 +128,25 @@ alias pkmn='cd ~/quicklisp/local-projects/pkmn'
 ulimit -n 2048
 
 function commits {
-	if [ $1 == "by" ] 
-	then
-		git log | grep -A5 $2
-	fi
+    if [ $1 == "by" ] 
+    then
+	git log | grep -A5 $2
+    fi
 }
 
 function update-facts {
-	cwd=$(pwd)
-    	cd ~/code/x
-    	git pull
-    	git submodule update --init
-    	cd $cwd
+    cwd=$(pwd)
+    cd ~/code/x
+    git pull
+    git submodule update --init
+    cd $cwd
+}
+
+function subm {
+    cd ~/code/x/src/submodules/$1
 }
 
 alias pfacts=update-facts
 alias facts='cd ~/code/x ; git status'
 alias mycommits='git log | grep -A5 "Robin"'
+alias proxy='sudo ssl-proxy -from 0.0.0.0:443 -to 127.0.0.1:3000'
