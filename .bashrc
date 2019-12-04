@@ -150,3 +150,4 @@ alias pfacts=update-facts
 alias facts='cd ~/code/x ; git status'
 alias mycommits='git log | grep -A5 "Robin"'
 alias proxy='sudo ssl-proxy -from 0.0.0.0:443 -to 127.0.0.1:3000'
+alias modified='git status | grep modified | xargs'
