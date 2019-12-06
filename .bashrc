@@ -62,9 +62,9 @@ parse_git_branch() {
 }
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h \[\033[01;34m\]\w\[\033[01;33m\]$(parse_git_branch)\[\033[00m\] λ\[\033[00m\] '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h \[\033[01;34m\]\w\[\033[01;33m\]$(parse_git_branch)\[\033[00m\] $\[\033[00m\] '
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h \w $(parse_git_branch) λ '
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h \w $(parse_git_branch) $ '
 fi
 unset color_prompt force_color_prompt
 
@@ -120,9 +120,11 @@ fi
 
 # general changes
 alias apt='sudo apt'
-alias syu='sudo apt update && sudo apt upgrade ** sudo apt autoremove'
+alias g='git '
+alias syu='sudo apt update && sudo apt upgrade && sudo apt autoremove'
 alias idea='sudo /opt/idea/bin/idea.sh'
 alias pkmn='cd ~/quicklisp/local-projects/pkmn'
+alias claer='clear'
 
 # work changes
 ulimit -n 2048
@@ -150,4 +152,4 @@ alias pfacts=update-facts
 alias facts='cd ~/code/x ; git status'
 alias mycommits='git log | grep -A5 "Robin"'
 alias proxy='sudo ssl-proxy -from 0.0.0.0:443 -to 127.0.0.1:3000'
-alias modified='git status | grep modified | xargs'
+alias modified='git status | grep modified: | xargs'
