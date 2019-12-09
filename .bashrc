@@ -130,8 +130,7 @@ alias claer='clear'
 ulimit -n 2048
 
 function commits {
-    if [ $1 == "by" ] 
-    then
+    if [ $1 == "by" ]; then
 	git log | grep -A5 $2
     fi
 }
@@ -145,7 +144,12 @@ function update-facts {
 }
 
 function subm {
-    cd ~/code/x/src/submodules/$1
+    if [ $1 == "-s" ]; then
+	cd ~/code/x/src/submodules/$2
+	git status
+    else
+	cd ~/code/x/src/submodules/$1
+    fi
 }
 
 alias pfacts=update-facts
