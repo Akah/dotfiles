@@ -51,6 +51,11 @@
 
 (electric-pair-mode 1)
 
+(company-mode 1)
+
+(require 'diff-hl)
+(global-diff-hl-mode)
+
 (set-face-attribute 'default nil :height 100)
 
 (add-hook 'java-mode-hook #'lsp)
@@ -102,3 +107,6 @@
 (load-theme 'zenburn t)
 
 (global-set-key (kbd "C-x g") 'magit-status)
+
+(require 'treemacs)
+(treemacs-resize-icons 14)
