@@ -143,7 +143,7 @@ function update-facts {
     cd $cwd
 }
 
-function subm {
+function sub {
     if [ $1 == "-s" ]; then
 	cd ~/code/x/src/submodules/$2
 	git status
