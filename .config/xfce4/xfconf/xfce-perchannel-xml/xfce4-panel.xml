@@ -8,7 +8,7 @@
       <property name="position" type="string" value="p=6;x=2240;y=16"/>
       <property name="length" type="uint" value="100"/>
       <property name="position-locked" type="bool" value="true"/>
-      <property name="size" type="uint" value="23"/>
+      <property name="size" type="uint" value="24"/>
       <property name="plugin-ids" type="array">
         <value type="int" value="7"/>
         <value type="int" value="3"/>
@@ -17,11 +17,11 @@
         <value type="int" value="5"/>
         <value type="int" value="1"/>
         <value type="int" value="11"/>
-        <value type="int" value="9"/>
         <value type="int" value="8"/>
         <value type="int" value="10"/>
         <value type="int" value="6"/>
         <value type="int" value="2"/>
+        <value type="int" value="9"/>
       </property>
       <property name="background-style" type="uint" value="1"/>
       <property name="background-color" type="array">
@@ -67,6 +67,13 @@
       </property>
       <property name="show-frame" type="bool" value="false"/>
       <property name="size-max" type="uint" value="19"/>
+      <property name="names-ordered" type="array">
+        <value type="string" value="system-config-printer"/>
+        <value type="string" value="network"/>
+        <value type="string" value="update-notifier"/>
+        <value type="string" value="blueman-applet"/>
+        <value type="string" value="networkmanager applet"/>
+      </property>
     </property>
     <property name="plugin-7" type="string" value="whiskermenu"/>
     <property name="plugin-1" type="string" value="xkb">
@@ -77,11 +84,12 @@
     <property name="plugin-8" type="string" value="notification-plugin"/>
     <property name="plugin-10" type="string" value="pulseaudio">
       <property name="enable-keyboard-shortcuts" type="bool" value="true"/>
+      <property name="mpris-players" type="string" value="parole"/>
     </property>
-    <property name="plugin-9" type="string" value="battery"/>
     <property name="plugin-11" type="string" value="clock">
       <property name="digital-format" type="string" value="|"/>
       <property name="tooltip-format" type="string" value=""/>
     </property>
+    <property name="plugin-9" type="string" value="power-manager-plugin"/>
   </property>
 </channel>
