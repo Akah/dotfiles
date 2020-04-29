@@ -27,9 +27,10 @@
    (quote
     ("84890723510d225c45aaff941a7e201606a48b973f0121cb9bcb0b9399be8cba" default)))
  '(global-display-line-numbers-mode t)
+ '(inhibit-startup-buffer-menu t)
  '(package-selected-packages
    (quote
-    (slime-company magit markdown-mode company tide slime lsp-java zenburn-theme treemacs-icons-dired treemacs)))
+    (pdf-tools ac-slime company-irony irony slime-company magit markdown-mode company tide slime lsp-java zenburn-theme treemacs-icons-dired treemacs)))
  '(safe-local-variable-values
    (quote
     ((eval modify-syntax-entry 43 "'")
@@ -47,11 +48,11 @@
 
 (global-display-line-numbers-mode 1)
 
-(global-prettify-symbols-mode 1)
+(global-prettify-symbols-mode 0)
 
 (electric-pair-mode 1)
-
-(company-mode 1)
+(company-mode 0)
+(menu-bar-mode 0)
 
 (require 'diff-hl)
 (global-diff-hl-mode)
@@ -67,6 +68,19 @@
  ;; If there is more than one, they won't work right.
  )
 
+(defun move-line-up ()
+  (interactive)
+  (transpose-lines 1)
+  (forward-line -2)
+  (indent-according-to-mode))
+
+(defun move-line-down ()
+  (interactive)
+  (forward-line 1)
+  (transpose-lines 1)
+  (forward-line -1)
+  (indent-according-to-mode))
+
 (defun setup-tide-mode ()
   (interactive)
   (tide-setup)
@@ -75,6 +89,9 @@
   (eldoc-mode +1)
   (tide-hl-identifier-mode +1)
   (company-mode +1))
+
+(global-set-key [(meta up)] 'move-line-up)
+(global-set-key [(meta down)] 'move-line-down)
 
 (setq company-tooltip-align-annotations t)
 
@@ -89,7 +106,6 @@
             (when (string-equal "tsx" (file-name-extension buffer-file-name))
               (setup-tide-mode))))
 
-; for lisp
 (load
  (expand-file-name "~/quicklisp/slime-helper.el"))
 (setq inferior-lisp-program "sbcl")
@@ -106,7 +122,20 @@
 
 (load-theme 'zenburn t)
 
+(require 'magit)
 (global-set-key (kbd "C-x g") 'magit-status)
 
 (require 'treemacs)
 (treemacs-resize-icons 14)
+
+(add-hook 'c-mode-hook
+	  (lambda ()
+	    (interactive)
+	    (auto-complete-mode 1)
+	    (irony-mode 1)
+	    (local-set-key (kbd "C-c C-c")
+			   (quote compile))))
+
+(setq-default c-default-style "linux"
+	      c-basic-offset 4)
+
