@@ -62,9 +62,9 @@ parse_git_branch() {
 }
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[01;34m\]:\w\[\033[01;33m\]$(parse_git_branch)\[\033[00m\] $\[\033[00m\] '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;34m\] \w\[\033[01;33m\]$(parse_git_branch)\[\033[00m\] λ\[\033[00m\] '
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h \w $(parse_git_branch) $ '
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h \w $(parse_git_branch) λ '
 fi
 unset color_prompt force_color_prompt
 
@@ -157,3 +157,7 @@ alias facts='cd ~/code/x ; git status'
 alias mycommits='git log | grep -A5 "Robin"'
 alias proxy='sudo ssl-proxy -from 0.0.0.0:443 -to 127.0.0.1:3000'
 alias modified='git status | grep modified: | xargs'
+setxkbmap -layout gb,de -option 'grp:alt_shift_toggle'
+
+alias emacs='emacsclient -c & > /dev/null'
+alias emacst='emacsclient -t'

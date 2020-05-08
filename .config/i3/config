@@ -166,7 +166,7 @@ bindsym $mod+r mode "resize"
 # my changes
 hide_edge_borders both
 
-exec_always "setxkbmap -model -layout gb,de  -option grp:alt_shift_toggle"
+exec_always "setxkbmap -layout gb,de  -option 'grp:alt_shift_toggle'"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)

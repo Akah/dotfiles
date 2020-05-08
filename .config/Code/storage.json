@@ -2,10 +2,24 @@
     "telemetry.machineId": "51ba32bd6a4f0f995be2e10125a8240315b3e489a19c33f79907019f39c8ddce",
     "openedPathsList": {
         "workspaces3": [
-            "file:///home/rob/pkmn",
+            "file:///home/rwhite/code/box5",
+            "file:///home/rwhite/code/facts5",
+            "file:///home/rwhite/code/facts4",
+            "file:///home/rwhite/code/box4",
+            "file:///home/rwhite/code/facts3",
+            "file:///home/rwhite/code/facts2",
+            "file:///home/rwhite/code/box2",
+            "file:///home/rwhite/code/facts",
+            "file:///home/rwhite/code/box",
+            "file:///home/rwhite/code/x",
+            "file:///home/rwhite/code/x2",
+            "file:///home/rwhite/quicklisp/local-projects/pkmn",
             "file:///home/rob/Downloads/ppp06"
         ],
-        "files2": []
+        "files2": [
+            "file:///home/rwhite/code/facts5/src/submodules/app-api/Communication.ts",
+            "file:///home/rwhite/code/x/src/submodules/basket-view/calculation/BasketCalculationManager.ts"
+        ]
     },
     "lastKnownMenubarData": {
         "menus": {
@@ -41,7 +55,8 @@
                             "items": [
                                 {
                                     "id": "workbench.action.reopenClosedEditor",
-                                    "label": "&&Reopen Closed Editor"
+                                    "label": "&&Reopen Closed Editor",
+                                    "enabled": false
                                 },
                                 {
                                     "id": "vscode.menubar.separator"
@@ -50,24 +65,137 @@
                                     "id": "openRecentFolder",
                                     "uri": {
                                         "$mid": 1,
-                                        "fsPath": "/home/rob/pkmn",
-                                        "external": "file:///home/rob/pkmn",
-                                        "path": "/home/rob/pkmn",
+                                        "fsPath": "/home/rwhite/code/box5",
+                                        "external": "file:///home/rwhite/code/box5",
+                                        "path": "/home/rwhite/code/box5",
                                         "scheme": "file"
                                     },
                                     "enabled": true,
-                                    "label": "~/pkmn"
+                                    "label": "~/code/box5"
                                 },
                                 {
                                     "id": "openRecentFolder",
                                     "uri": {
                                         "$mid": 1,
-                                        "external": "file:///home/rob/Downloads/ppp06",
-                                        "path": "/home/rob/Downloads/ppp06",
+                                        "external": "file:///home/rwhite/code/facts5",
+                                        "path": "/home/rwhite/code/facts5",
                                         "scheme": "file"
                                     },
                                     "enabled": true,
-                                    "label": "~/Downloads/ppp06"
+                                    "label": "~/code/facts5"
+                                },
+                                {
+                                    "id": "openRecentFolder",
+                                    "uri": {
+                                        "$mid": 1,
+                                        "external": "file:///home/rwhite/code/facts4",
+                                        "path": "/home/rwhite/code/facts4",
+                                        "scheme": "file"
+                                    },
+                                    "enabled": true,
+                                    "label": "~/code/facts4"
+                                },
+                                {
+                                    "id": "openRecentFolder",
+                                    "uri": {
+                                        "$mid": 1,
+                                        "external": "file:///home/rwhite/code/box4",
+                                        "path": "/home/rwhite/code/box4",
+                                        "scheme": "file"
+                                    },
+                                    "enabled": true,
+                                    "label": "~/code/box4"
+                                },
+                                {
+                                    "id": "openRecentFolder",
+                                    "uri": {
+                                        "$mid": 1,
+                                        "external": "file:///home/rwhite/code/facts3",
+                                        "path": "/home/rwhite/code/facts3",
+                                        "scheme": "file"
+                                    },
+                                    "enabled": true,
+                                    "label": "~/code/facts3"
+                                },
+                                {
+                                    "id": "openRecentFolder",
+                                    "uri": {
+                                        "$mid": 1,
+                                        "external": "file:///home/rwhite/code/facts2",
+                                        "path": "/home/rwhite/code/facts2",
+                                        "scheme": "file"
+                                    },
+                                    "enabled": true,
+                                    "label": "~/code/facts2"
+                                },
+                                {
+                                    "id": "openRecentFolder",
+                                    "uri": {
+                                        "$mid": 1,
+                                        "external": "file:///home/rwhite/code/box2",
+                                        "path": "/home/rwhite/code/box2",
+                                        "scheme": "file"
+                                    },
+                                    "enabled": true,
+                                    "label": "~/code/box2"
+                                },
+                                {
+                                    "id": "openRecentFolder",
+                                    "uri": {
+                                        "$mid": 1,
+                                        "external": "file:///home/rwhite/code/facts",
+                                        "path": "/home/rwhite/code/facts",
+                                        "scheme": "file"
+                                    },
+                                    "enabled": true,
+                                    "label": "~/code/facts"
+                                },
+                                {
+                                    "id": "openRecentFolder",
+                                    "uri": {
+                                        "$mid": 1,
+                                        "external": "file:///home/rwhite/code/box",
+                                        "path": "/home/rwhite/code/box",
+                                        "scheme": "file"
+                                    },
+                                    "enabled": true,
+                                    "label": "~/code/box"
+                                },
+                                {
+                                    "id": "openRecentFolder",
+                                    "uri": {
+                                        "$mid": 1,
+                                        "external": "file:///home/rwhite/code/x",
+                                        "path": "/home/rwhite/code/x",
+                                        "scheme": "file"
+                                    },
+                                    "enabled": true,
+                                    "label": "~/code/x"
+                                },
+                                {
+                                    "id": "vscode.menubar.separator"
+                                },
+                                {
+                                    "id": "openRecentFile",
+                                    "uri": {
+                                        "$mid": 1,
+                                        "external": "file:///home/rwhite/code/facts5/src/submodules/app-api/Communication.ts",
+                                        "path": "/home/rwhite/code/facts5/src/submodules/app-api/Communication.ts",
+                                        "scheme": "file"
+                                    },
+                                    "enabled": true,
+                                    "label": "~/code/facts5/src/submodules/app-api/Communication.ts"
+                                },
+                                {
+                                    "id": "openRecentFile",
+                                    "uri": {
+                                        "$mid": 1,
+                                        "external": "file:///home/rwhite/code/x/src/submodules/basket-view/calculation/BasketCalculationManager.ts",
+                                        "path": "/home/rwhite/code/x/src/submodules/basket-view/calculation/BasketCalculationManager.ts",
+                                        "scheme": "file"
+                                    },
+                                    "enabled": true,
+                                    "label": "~/code/x/src/submodules/basket-view/calculation/BasketCalculationManager.ts"
                                 },
                                 {
                                     "id": "vscode.menubar.separator"
@@ -102,7 +230,8 @@
                     },
                     {
                         "id": "workbench.action.files.save",
-                        "label": "&&Save"
+                        "label": "&&Save",
+                        "enabled": false
                     },
                     {
                         "id": "workbench.action.files.saveAs",
@@ -174,7 +303,8 @@
                     },
                     {
                         "id": "workbench.action.files.revert",
-                        "label": "Re&&vert File"
+                        "label": "Re&&vert File",
+                        "enabled": false
                     },
                     {
                         "id": "workbench.action.closeActiveEditor",
@@ -306,10 +436,6 @@
                         "id": "vscode.menubar.separator"
                     },
                     {
-                        "id": "workbench.action.toggleMultiCursorModifier",
-                        "label": "Switch to Ctrl+Click for Multi-Cursor"
-                    },
-                    {
                         "id": "editor.action.insertCursorAbove",
                         "label": "&&Add Cursor Above"
                     },
@@ -332,6 +458,17 @@
                     {
                         "id": "editor.action.selectHighlights",
                         "label": "Select All &&Occurrences"
+                    },
+                    {
+                        "id": "vscode.menubar.separator"
+                    },
+                    {
+                        "id": "workbench.action.toggleMultiCursorModifier",
+                        "label": "Switch to Ctrl+Click for Multi-Cursor"
+                    },
+                    {
+                        "id": "editor.action.toggleColumnSelection",
+                        "label": "Column &&Selection Mode"
                     }
                 ]
             },
@@ -374,8 +511,7 @@
                                 },
                                 {
                                     "id": "workbench.action.toggleSidebarVisibility",
-                                    "label": "Show &&Side Bar",
-                                    "checked": true
+                                    "label": "Show &&Side Bar"
                                 },
                                 {
                                     "id": "workbench.action.toggleStatusbarVisibility",
@@ -384,8 +520,7 @@
                                 },
                                 {
                                     "id": "workbench.action.toggleActivityBarVisibility",
-                                    "label": "Show &&Activity Bar",
-                                    "checked": true
+                                    "label": "Show &&Activity Bar"
                                 },
                                 {
                                     "id": "workbench.action.toggleEditorVisibility",
@@ -404,7 +539,11 @@
                                     "label": "&&Move Side Bar Right"
                                 },
                                 {
-                                    "id": "workbench.action.togglePanelPosition",
+                                    "id": "workbench.action.positionPanelLeft",
+                                    "label": "Move Panel Left"
+                                },
+                                {
+                                    "id": "workbench.action.positionPanelRight",
                                     "label": "Move Panel Right"
                                 },
                                 {
@@ -508,7 +647,7 @@
                     },
                     {
                         "id": "workbench.view.debug",
-                        "label": "&&Debug"
+                        "label": "&&Run"
                     },
                     {
                         "id": "workbench.view.extensions",
@@ -542,7 +681,8 @@
                     },
                     {
                         "id": "editor.action.toggleMinimap",
-                        "label": "Show &&Minimap"
+                        "label": "Show &&Minimap",
+                        "checked": true
                     },
                     {
                         "id": "breadcrumbs.toggle",
@@ -551,7 +691,8 @@
                     },
                     {
                         "id": "editor.action.toggleRenderWhitespace",
-                        "label": "&&Render Whitespace"
+                        "label": "&&Render Whitespace",
+                        "checked": true
                     },
                     {
                         "id": "editor.action.toggleRenderControlCharacter",
@@ -572,7 +713,8 @@
                     },
                     {
                         "id": "workbench.action.navigateToLastEditLocation",
-                        "label": "&&Last Edit Location"
+                        "label": "&&Last Edit Location",
+                        "enabled": false
                     },
                     {
                         "id": "vscode.menubar.separator"
@@ -589,6 +731,28 @@
                                 {
                                     "id": "workbench.action.previousEditor",
                                     "label": "&&Previous Editor"
+                                },
+                                {
+                                    "id": "vscode.menubar.separator"
+                                },
+                                {
+                                    "id": "workbench.action.openNextRecentlyUsedEditor",
+                                    "label": "&&Next Used Editor"
+                                },
+                                {
+                                    "id": "workbench.action.openPreviousRecentlyUsedEditor",
+                                    "label": "&&Previous Used Editor"
+                                },
+                                {
+                                    "id": "vscode.menubar.separator"
+                                },
+                                {
+                                    "id": "workbench.action.nextEditorInGroup",
+                                    "label": "&&Next Editor in Group"
+                                },
+                                {
+                                    "id": "workbench.action.previousEditorInGroup",
+                                    "label": "&&Previous Editor in Group"
                                 },
                                 {
                                     "id": "vscode.menubar.separator"
@@ -619,45 +783,54 @@
                                 },
                                 {
                                     "id": "workbench.action.focusThirdEditorGroup",
-                                    "label": "Group &&3"
+                                    "label": "Group &&3",
+                                    "enabled": false
                                 },
                                 {
                                     "id": "workbench.action.focusFourthEditorGroup",
-                                    "label": "Group &&4"
+                                    "label": "Group &&4",
+                                    "enabled": false
                                 },
                                 {
                                     "id": "workbench.action.focusFifthEditorGroup",
-                                    "label": "Group &&5"
+                                    "label": "Group &&5",
+                                    "enabled": false
                                 },
                                 {
                                     "id": "vscode.menubar.separator"
                                 },
                                 {
                                     "id": "workbench.action.focusNextGroup",
-                                    "label": "&&Next Group"
+                                    "label": "&&Next Group",
+                                    "enabled": false
                                 },
                                 {
                                     "id": "workbench.action.focusPreviousGroup",
-                                    "label": "&&Previous Group"
+                                    "label": "&&Previous Group",
+                                    "enabled": false
                                 },
                                 {
                                     "id": "vscode.menubar.separator"
                                 },
                                 {
                                     "id": "workbench.action.focusLeftGroup",
-                                    "label": "Group &&Left"
+                                    "label": "Group &&Left",
+                                    "enabled": false
                                 },
                                 {
                                     "id": "workbench.action.focusRightGroup",
-                                    "label": "Group &&Right"
+                                    "label": "Group &&Right",
+                                    "enabled": false
                                 },
                                 {
                                     "id": "workbench.action.focusAboveGroup",
-                                    "label": "Group &&Above"
+                                    "label": "Group &&Above",
+                                    "enabled": false
                                 },
                                 {
                                     "id": "workbench.action.focusBelowGroup",
-                                    "label": "Group &&Below"
+                                    "label": "Group &&Below",
+                                    "enabled": false
                                 }
                             ]
                         }
@@ -735,7 +908,7 @@
                     }
                 ]
             },
-            "Debug": {
+            "Run": {
                 "items": [
                     {
                         "id": "workbench.action.debug.start",
@@ -1206,8 +1379,9 @@
                 "userSettingsLabel": "ctrl+shift+f"
             },
             "workbench.view.scm": {
-                "label": "Ctrl+Shift+G",
-                "userSettingsLabel": "ctrl+shift+g"
+                "label": "Ctrl+Shift+G G",
+                "isNative": false,
+                "userSettingsLabel": "ctrl+shift+g g"
             },
             "workbench.view.debug": {
                 "label": "Ctrl+Shift+D",
@@ -1253,13 +1427,15 @@
                 "label": "Ctrl+PageUp",
                 "userSettingsLabel": "ctrl+pageup"
             },
-            "workbench.action.openNextRecentlyUsedEditorInGroup": {
-                "label": "Ctrl+Tab",
-                "userSettingsLabel": "ctrl+tab"
+            "workbench.action.nextEditorInGroup": {
+                "label": "Ctrl+K Ctrl+PageDown",
+                "isNative": false,
+                "userSettingsLabel": "ctrl+k ctrl+pagedown"
             },
-            "workbench.action.openPreviousRecentlyUsedEditorInGroup": {
-                "label": "Ctrl+Shift+Tab",
-                "userSettingsLabel": "ctrl+shift+tab"
+            "workbench.action.previousEditorInGroup": {
+                "label": "Ctrl+K Ctrl+PageUp",
+                "isNative": false,
+                "userSettingsLabel": "ctrl+k ctrl+pageup"
             },
             "workbench.action.focusFirstEditorGroup": {
                 "label": "Ctrl+1",
@@ -1415,18 +1591,18 @@
         }
     },
     "theme": "vs-dark",
-    "themeBackground": "#1e1e1e",
-    "pickerWorkingDir": "/home/rob",
+    "themeBackground": "#3f3f3f",
+    "pickerWorkingDir": "/home/rwhite/code",
     "windowsState": {
         "lastActiveWindow": {
-            "folder": "file:///home/rob/pkmn",
-            "backupPath": "/home/rob/.config/Code/Backups/fadfffead9f7d616a0904c974110e8df",
+            "folder": "file:///home/rwhite/code/box5",
+            "backupPath": "/home/rwhite/.config/Code/Backups/036fde03ae3e89283aaf05e36f4806b9",
             "uiState": {
                 "mode": 1,
                 "x": 0,
                 "y": 37,
-                "width": 681,
-                "height": 731
+                "width": 1920,
+                "height": 1043
             }
         },
         "openedWindows": []
