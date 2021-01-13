@@ -1,198 +1,128 @@
 (require 'package)
 
-(add-to-list 'package-archives
-	     '("org" . "https://orgmode.org/elpa/") t)
-(add-to-list 'package-archives
-	     '("melpa-stable" . "https://stable.melpa.org/packages/") t)
-(add-to-list 'package-archives
-	     '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(add-to-list 'package-archives
-	     '("melpa" . "https://melpa.org/packages/") t)
+(defun reload-emacs ()
+  (interactive)
+  (load-file "~/.emacs"))
 
+(defun handle-whitespace ()
+  (interactive)
+  ;(whitespace-mode 1)
+  (add-to-list 'write-file-functions 'delete-trailing-whitespace))
+
+(setf package-check-signature nil)
+
+(add-to-list 'package-archives
+	     '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives
+	     '("melpa-stable" . "https://stable.melpa.org/packages/"))
 (package-initialize)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector
-   [default default default italic underline success warning error])
- '(ansi-color-names-vector
-   ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
- '(column-number-mode t)
- '(company-quickhelp-color-background "#4F4F4F")
- '(company-quickhelp-color-foreground "#DCDCCC")
- '(custom-enabled-themes '(zenburn))
- '(custom-safe-themes
-   '("9c511315ef820d768f990d8053b9194f73728b22887c2808e0e36ec7d58fd999"
-     "95a3219337da075d8d03938f8d5394718c2a6b7409a53b818d032b37dc0b56e2"
-     "90fc97b270630aa2d452a597ce1d5ba5508aa8cc9e9b5f77c58ed0a3b136910a"
-     "cf6f7f3e8c24cf271008d2e16f3e449cc6c8a80e641706a83fe708bdafca2bcc"
-     "542ab4e358f00ea866a7697f3e6f5661a16cf5d9087962c9334c75afab9ce6e0"
-     "fb02341256e724afa2a7eb75e650ea5e99446afaf0876bc88ce368ef7d04f263"
-     "0046cebeffcf09cd9700b123baaca04ae10154df824e3a63f9b7d02b3fc6e4a1"
-     "fb9cde30661f8f5f13ef63bf0013b8b4c3128947f611990b4f6975c3f77fa3e5"
-     "ec5f761d75345d1cf96d744c50cf7c928959f075acf3f2631742d5c9fe2153ad"
-     "6383f86cac149fb10fc5a2bac6e0f7985d9af413c4be356cab4bfea3c08f3b42"
-     "12dd37432bb454355047c967db886769a6c60e638839405dad603176e2da366b"
-     "84890723510d225c45aaff941a7e201606a48b973f0121cb9bcb0b9399be8cba"
-     default))
- '(fci-rule-color "#383838")
- '(inhibit-startup-screen t)
- '(nrepl-message-colors
-   '("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3"))
- '(package-selected-packages
-   '(column-enforce-mode
-     npm-mode
-     npm
-     ranger
-     notmuch
-     w3m
-     pdf-tools
-     import-js
-     projectile
-     indium
-     slime-company
-     magit
-     markdown-mode
-     company
-     tide
-     slime
-     lsp-java
-     zenburn-theme
-     treemacs-icons-dired
-     treemacs))
- '(pdf-view-midnight-colors '("#DCDCCC" . "#383838"))
- '(pos-tip-background-color "#36473A")
- '(pos-tip-foreground-color "#FFFFC8")
- '(safe-local-variable-values
-   '((eval modify-syntax-entry 43 "'")
-     (eval modify-syntax-entry 36 "'")
-     (eval modify-syntax-entry 126 "'")
-     (eval when
-	   (require 'rainbow-mode nil t)
-	   (rainbow-mode 1))))
- '(scroll-bar-mode nil)
- '(size-indication-mode t)
- '(tool-bar-mode nil)
- '(vc-annotate-background "#2B2B2B")
- '(vc-annotate-color-map
-   '((20 . "#BC8383")
-     (40 . "#CC9393")
-     (60 . "#DFAF8F")
-     (80 . "#D0BF8F")
-     (100 . "#E0CF9F")
-     (120 . "#F0DFAF")
-     (140 . "#5F7F5F")
-     (160 . "#7F9F7F")
-     (180 . "#8FB28F")
-     (200 . "#9FC59F")
-     (220 . "#AFD8AF")
-     (240 . "#BFEBBF")
-     (260 . "#93E0E3")
-     (280 . "#6CA0A3")
-     (300 . "#7CB8BB")
-     (320 . "#8CD0D3")
-     (340 . "#94BFF3")
-     (360 . "#DC8CC3")))
- '(vc-annotate-very-old-color "#DC8CC3")
- '(window-divider-default-places 'bottom-only))
+(package-refresh-contents)
+(require 'use-package)
+(setq use-package-always-ensure t)
 
-;; Global settings:
-(global-display-line-numbers-mode 1)
-(global-prettify-symbols-mode 1)
-(global-auto-complete-mode 1)
-(global-flycheck-mode 1)
+(use-package magit)
+(use-package column-enforce-mode)
+(use-package diff-hl)
+(use-package drag-stuff)
+(use-package projectile)
+(use-package treemacs)
+
+(use-package tide)
+(use-package flycheck)
+(use-package eldoc)
+;;(use-package auto-complete :ensure t)
+(use-package web-mode)
+
+(dolist (package '(use-package))
+  (unless (package-installed-p package)
+    (package-install package)))
+
+(global-diff-hl-mode 0)
+(show-paren-mode 1)
 (electric-pair-mode 1)
+(projectile-mode +1)
 (menu-bar-mode 0)
 (tool-bar-mode 0)
-
-(setq flycheck-check-syntax-automatically '(save mode-enabled))
-
-(require 'column-enforce-mode)
-(global-column-enforce-mode t)
-(setq column-enforce-comments nil)
-
-(require 'diff-hl)
-(global-diff-hl-mode)
-
+(scroll-bar-mode 0)
+(handle-whitespace)
+(treemacs-resize-icons 14)
 (set-face-attribute 'default nil :height 90)
+(setq column-enforce-comments nil
+      indent-tabs-mode nil
+      c-default-style "linux"
+      c-basic-offset 4)
 
-;;; JavaScript/TypeScript
+(global-set-key (kbd "C-x C-g")   #'magit-status)
+(global-set-key (kbd "C-x t")    #'treemacs)
+(global-set-key (kbd "M-<up>")   #'drag-stuff-up)
+(global-set-key (kbd "M-<down>") #'drag-stuff-down)
+(global-set-key (kbd "C-c C-c")  #'compile)
 
-(defun move-line-up ()
-  (interactive)
-  (transpose-lines 1)
-  (forward-line -2)
-  (indent-according-to-mode))
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
-(defun move-line-down ()
-  (interactive)
-  (forward-line 1)
-  (transpose-lines 1)
-  (forward-line -1)
-  (indent-according-to-mode))
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+
+(add-hook 'c-mode-hook
+	  (lambda ()
+	    (interactive)
+	    (flycheck-mode 1)
+	    ;;(auto-complete-mode 1)
+	    (local-set-key (kbd "C-c C-c") 'compile)
+	    (column-enforce-mode 1)
+	    (handle-whitespace)
+	    (setq column-enforce-column 80)))
 
 (defun setup-tide-mode ()
   "."
   (interactive)
   (tide-setup)
-  (flycheck-mode +1)
-  (eldoc-mode +1)
-  (tide-hl-identifier-mode +1)
-  (auto-complete-mode +1)
-  (run-import-js)
-  (setq column-enforce-column 160))
+  (flycheck-mode 1)
+  (eldoc-mode 1)
+  (tide-hl-identifier-mode 1)
+  ;;(auto-complete-mode 1)
+  (column-enforce-mode 1)
+  (handle-whitespace)
+  (setq column-enforce-column 160
+	flycheck-check-syntax-automatically '(save mode-enabled)))
 
-(global-set-key [(meta up)] 'move-line-up)
-(global-set-key [(meta down)] 'move-line-down)
-
-(setq company-tooltip-align-annotations t)
-
-(add-hook 'before-save-hook 'tide-format-before-save)
 (add-hook 'typescript-mode-hook #'setup-tide-mode)
 
-(require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
 (add-hook 'web-mode-hook
-          (lambda ()
-            (when (string-equal "tsx" (file-name-extension buffer-file-name))
-              (setup-tide-mode))))
-
-;;; LISP
-(load
- (expand-file-name "~/quicklisp/slime-helper.el"))
-(setq inferior-lisp-program "sbcl")
-
-(require 'ac-slime)
-(add-hook 'slime-mode-hook 'set-up-slime-ac)
-(add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
-(eval-after-load "auto-complete"
-  '(add-to-list 'ac-modes 'slime-repl-mode))
-
-(load-theme 'zenburn t)
-
-(require 'magit)
-(global-set-key (kbd "C-x C-g") 'magit-status)
-;(global-set-key (kbd "C-x C-g p") 'magit-pull-from-upstream)
-(global-set-key (kbd "C-x t") 'treemacs)
-(require 'treemacs)
-(treemacs-resize-icons 14)
-
-(add-hook 'c-mode-hook
 	  (lambda ()
 	    (interactive)
-	    (auto-complete-mode 1)
-	    (irony-mode 1)
-	    (local-set-key (kbd "C-c C-c")
-			   (quote compile))))
-
-(setq-default c-default-style "linux"
-	      c-basic-offset 4)
-
-
-(projectile-mode +1)
-(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+	    (when (string-equal "tsx" (file-name-extension buffer-file-name))
+	      (setup-tide-mode))))
+(flycheck-add-mode 'typescript-tslint 'webmode)
 
 ;;; .emacs ends here
+
+(put 'upcase-region 'disabled nil)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes (quote (doom-one)))
+ '(custom-safe-themes
+   (quote
+    ("f0dc4ddca147f3c7b1c7397141b888562a48d9888f1595d69572db73be99a024" "78e9a3e1c519656654044aeb25acb8bec02579508c145b6db158d2cfad87c44e" "6b2636879127bf6124ce541b1b2824800afc49c6ccd65439d6eb987dbf200c36" default)))
+ '(nrepl-message-colors
+   (quote
+    ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
+ '(package-selected-packages
+   (quote
+    (company-irony irony company auto-complete web-mode tide magit treemacs projectile diff-hl use-package drag-stuff doom-themes column-enforce-mode)))
+ '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
+ '(whitespace-style
+   (quote
+    (face tabs spaces trailing space-before-tab newline indentation empty space-after-tab space-mark tab-mark))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+(load-theme 'doom-one)
