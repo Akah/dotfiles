@@ -108,11 +108,10 @@
 
 (use-package emacs
   :hook (prog-mode . default-prog-mode-setup)
-  ;; :bind (
-  ;;        ("C-x O" . prev-window)
-  ;;        ;; ("M-[" . backward-paragraph)
-  ;;        ;; ("M-]" . forward-paragraph)
-  ;;        ("ESC" . keyboard-escape-quit))
+  :bind (
+         ("C-x O" . prev-window)
+         ("M-[" . backward-paragraph)
+         ("M-]" . forward-paragraph))
   :config
   (defun default-prog-mode-setup ()
     (whitespace-mode)
@@ -148,7 +147,7 @@
   (setq mode-require-final-newline nil)
   (setq auto-save-default nil)
   (setq make-backup-files nil)
-  (setq create-lockfiles nil))
+  (setq create-lockfiles nil)
   ;;
   (setq-default line-spacing 2)
   (setq-default indent-tabs-mode nil)
@@ -156,6 +155,10 @@
                 '((space-mark 32 [183] [46])
                   (space-mark 160 [164] [95])
                   (tab-mark 9 [187 9] [92 9])))
+  ;; enable emojis: requires font-noto-color-emoji package
+  (when (member "Noto Color Emoji" (font-family-list))
+    (set-fontset-font
+     t 'symbol (font-spec :family "Noto Color Emoji") nil 'prepend)))
 
 (use-package yasnippet
   :config (yas-global-mode))
@@ -178,6 +181,7 @@
             (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
             (setq dashboard-week-agenda t)
             (setq dashboard-center-content t)
+            (setq org-agenda-files '("~/org"))
             (setq dashboard-filter-agenda-entry 'dashboard-filter-agenda-by-time)
             (setq dashboard-items '((recents  . 15)
                                     (projects . 10)
@@ -289,18 +293,25 @@
 (add-to-list 'load-path "~/code/dotfiles/emacs/")
 (load "c.el")
 (load "lisp.el")
-(load "js.el")
 
-;; no arrow keys
-;; (global-unset-key (kbd "<left>"))
-;; (global-unset-key (kbd "<right>"))
-;; (global-unset-key (kbd "<up>"))
-;; (global-unset-key (kbd "<down>"))
-;; (global-unset-key (kbd "<C-left>"))
-;; (global-unset-key (kbd "<C-right>"))
-;; (global-unset-key (kbd "<C-up>"))
-;; (global-unset-key (kbd "<C-down>"))
-;; (global-unset-key (kbd "<M-left>"))
-;; (global-unset-key (kbd "<M-right>"))
-;; (global-unset-key (kbd "<M-up>"))
-;; (global-unset-key (kbd "<M-down>"))
+(global-set-key (kbd "M-n") 'forward-paragraph)
+(global-set-key (kbd "M-p") 'backward-paragraph)
+;; set jkl; to be navigation keys; equivelant to hjkl but already on the home keys
+(global-set-key (kbd "M-j") 'backward-char)
+(global-set-key (kbd "M-k") 'previous-line)
+(global-set-key (kbd "M-l") 'next-line)
+(global-set-key (kbd "M-;") 'forward-char) ; overwrites 'comment-dwim'
+
+;; unset default arrow keys (temporarily until I'm used to `jkl;`')
+(global-unset-key (kbd "<left>"))
+(global-unset-key (kbd "<right>"))
+(global-unset-key (kbd "<up>"))
+(global-unset-key (kbd "<down>"))
+(global-unset-key (kbd "<C-left>"))
+(global-unset-key (kbd "<C-right>"))
+(global-unset-key (kbd "<C-up>"))
+(global-unset-key (kbd "<C-down>"))
+(global-unset-key (kbd "<M-left>"))
+(global-unset-key (kbd "<M-right>"))
+(global-unset-key (kbd "<M-up>"))
+(global-unset-key (kbd "<M-down>"))
