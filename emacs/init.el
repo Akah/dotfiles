@@ -125,7 +125,7 @@
     (set-face-attribute 'default nil :height 100))
   (defun monitor ()
     (interactive)
-    (set-face-attribute 'default nil :height 80))
+    (set-face-attribute 'default nil :height 90))
   (defalias 'open 'find-file)
   (defalias 'openo 'find-file-other-window)
   (delete-selection-mode 1)
@@ -135,7 +135,7 @@
   (tool-bar-mode 0)
   (scroll-bar-mode 0)
   (global-auto-revert-mode 1)
-  (set-face-attribute 'default nil :height 80)
+  (set-face-attribute 'default nil :height 90)
   (set-fontset-font "fontset-default" 'cyrillic "DejaVu Sans Mono")
   (setq use-package-always-ensure t)
   (setq backup-directory-alist `(("." . ,(expand-file-name "tmp/backups/" user-emacs-directory))))
@@ -174,14 +174,14 @@
 (use-package nyan-mode
   :config (nyan-mode))
 
-(use-package all-the-icons)
+(use-package treemacs-all-the-icons)
 
 (use-package dashboard
   :config (progn
             (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
             (setq dashboard-week-agenda t)
             (setq dashboard-center-content t)
-            (setq org-agenda-files '("~/org"))
+            (setq org-agenda-files '())
             (setq dashboard-filter-agenda-entry 'dashboard-filter-agenda-by-time)
             (setq dashboard-items '((recents  . 15)
                                     (projects . 10)
@@ -240,7 +240,9 @@
 
 (use-package treemacs
   :bind ("C-x t" . treemacs)
-  :config (treemacs-resize-icons 15))
+  :config
+  (treemacs-resize-icons 15)
+  (treemacs-load-theme "all-the-icons"))
 
 (use-package treemacs-icons-dired
   :after treemacs dired
@@ -293,6 +295,7 @@
 (add-to-list 'load-path "~/code/dotfiles/emacs/")
 (load "c.el")
 (load "lisp.el")
+(load "js-ts.el")
 
 (global-set-key (kbd "M-n") 'forward-paragraph)
 (global-set-key (kbd "M-p") 'backward-paragraph)
@@ -303,15 +306,15 @@
 (global-set-key (kbd "M-;") 'forward-char) ; overwrites 'comment-dwim'
 
 ;; unset default arrow keys (temporarily until I'm used to `jkl;`')
-(global-unset-key (kbd "<left>"))
-(global-unset-key (kbd "<right>"))
-(global-unset-key (kbd "<up>"))
-(global-unset-key (kbd "<down>"))
-(global-unset-key (kbd "<C-left>"))
-(global-unset-key (kbd "<C-right>"))
-(global-unset-key (kbd "<C-up>"))
-(global-unset-key (kbd "<C-down>"))
-(global-unset-key (kbd "<M-left>"))
-(global-unset-key (kbd "<M-right>"))
-(global-unset-key (kbd "<M-up>"))
-(global-unset-key (kbd "<M-down>"))
+;; (global-unset-key (kbd "<left>"))
+;; (global-unset-key (kbd "<right>"))
+;; (global-unset-key (kbd "<up>"))
+;; (global-unset-key (kbd "<down>"))
+;; (global-unset-key (kbd "<C-left>"))
+;; (global-unset-key (kbd "<C-right>"))
+;; (global-unset-key (kbd "<C-up>"))
+;; (global-unset-key (kbd "<C-down>"))
+;; (global-unset-key (kbd "<M-left>"))
+;; (global-unset-key (kbd "<M-right>"))
+;; (global-unset-key (kbd "<M-up>"))
+;; (global-unset-key (kbd "<M-down>"))

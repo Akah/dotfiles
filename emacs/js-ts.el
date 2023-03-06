@@ -41,14 +41,13 @@
               (local-set-key (kbd "C-c C-c" #'compile))
               (flycheck-add-mode 'typescript-tslint 'webmode))))
 
-
 (use-package web-mode
-  :mode ((("\\.js\\'"   . web-mode)
-          ("\\.jsx\\'"  . web-mode)
-          ("\\.ts\\'"   . web-mode)
-          ("\\.tsx\\'"  . web-mode)
-          ("\\.html\\'" . web-mode)))
+  :mode (("\\.js\\'"   . web-mode)
+         ("\\.jsx\\'"  . web-mode)
+         ("\\.ts\\'"   . web-mode)
+         ("\\.tsx\\'"  . web-mode)
+         ("\\.html\\'" . web-mode))
   :commands web-mode)
 
 
-(message "js.el was run")
+(message "js-ts.el was run")

@@ -214,3 +214,6 @@ alias .....='cd ../../../../'
 export ANDROID_HOME=$HOME/Android/Sdk
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
+
+xrandr --output DP-0 --left-of HDMI-0
+
