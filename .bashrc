@@ -1,4 +1,3 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
@@ -62,7 +61,7 @@ parse_git_branch() {
 }
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;34m\] \w\[\033[01;33m\]$(parse_git_branch)\[\033[00m\] $\[\033[00m\] '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;95m\] \w\[\033[01;93m\]$(parse_git_branch)\[\033[00m\] $\[\033[00m\] '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h \w $(parse_git_branch) λ '
 fi
@@ -215,5 +214,7 @@ export ANDROID_HOME=$HOME/Android/Sdk
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
-xrandr --output DP-0 --left-of HDMI-0
+alias emulator='emulator @Pixel_6_API_31'
 
+# mount mac xapp to /mnt/code/xapp
+# sshfs app-dev@egrde-mac-rko2.local:/Users/app-dev/_rwh /home/mac/ > /dev/null 2>&1

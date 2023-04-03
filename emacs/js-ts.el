@@ -23,23 +23,9 @@
 (use-package dap-mode
   :ensure t)
 
-(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.ts\\'" . web-mode))
-
-(add-hook 'typescript-mode-hook (lambda ()
-                                  (setup-tide-mode)
-                                  (lsp)))
-(add-hook 'web-mode-hook
-          (lambda ()
-            (interactive)
-            (setq column-enforce-column 160)
-            (setq whitespace-line-column 160)
-            (flycheck-mode 1)
-            (when (or (string-equal "tsx" (file-name-extension buffer-file-name))
-                      (string-equal "ts" (file-name-extension buffer-file-name)))
-              (lsp)
-              (local-set-key (kbd "C-c C-c" #'compile))
-              (flycheck-add-mode 'typescript-tslint 'webmode))))
+;;for react-native
+(use-package groovy-mode
+  :mode (("\\.gradle\\'" . groovy-mode)))
 
 (use-package web-mode
   :mode (("\\.js\\'"   . web-mode)
@@ -47,7 +33,14 @@
          ("\\.ts\\'"   . web-mode)
          ("\\.tsx\\'"  . web-mode)
          ("\\.html\\'" . web-mode))
+  :hook (web-mode . (lambda ()
+                      (interactive)
+                      (setq column-enforce-column 160)
+                      (setq whitespace-line-column 160)
+                      (flycheck-mode 1)
+                      (when (or (string-equal "tsx" (file-name-extension buffer-file-name))
+                                (string-equal "ts" (file-name-extension buffer-file-name)))
+                        (lsp-mode)
+                        (local-set-key (kbd "C-c C-c" #'compile))
+                        (flycheck-add-mode 'typescript-tslint 'webmode))))
   :commands web-mode)
-
-
-(message "js-ts.el was run")

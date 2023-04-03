@@ -4,10 +4,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("bf948e3f55a8cd1f420373410911d0a50be5a04a8886cabe8d8e471ad8fdba8e" default))
+   '("944d52450c57b7cbba08f9b3d08095eb7a5541b0ecfb3a0a9ecd4a18f3c28948" default))
  '(gnu-algorithm-priority "normal:-vers-tls1.3")
- '(warning-suppress-types
-   '((comp))))
+ '(package-selected-packages
+   '(exwm diminish web-mode groovy-mode dap-mode anki-editor multiple-cursors sudo-edit why-this expand-region lsp-mode which-key treemacs-icons-dired projectile-ripgrep ripgrep drag-stuff git-gutter-fringe git-gutter pdf-tools ivy orderless magit centaur-tabs dashboard treemacs-all-the-icons diff-hl company flycheck yasnippet vterm doom-themes use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

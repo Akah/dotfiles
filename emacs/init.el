@@ -94,25 +94,47 @@
                     (number-sequence 0 9))))
   (exwm-enable))
 
+(use-package diminish
+  :config
+  (diminish 'eldoc-mode)
+  (diminish 'whitespace-mode)
+  (diminish 'abbrev-mode)
+  (diminish 'ws-mode))
+
 (use-package doom-themes
   :ensure t
-  :config (progn
-            (defun dark-mode ()
-              (interactive)
-              (load-theme 'doom-badger))
-            (defun light-mode ()
-              (interactive)
-              ;; alternatively use defaul theme: (disable-theme 'doom-badger))
-              (load-theme 'doom-gruvbox-light))
-            (load-theme 'doom-badger)))
+  :config
+    (defun dark-mode ()
+      (interactive)
+      (load-theme 'doom-dracula))
+    (defun light-mode ()
+      (interactive)
+      (load-theme 'doom-gruvbox-light))
+    (dark-mode))
+
+(use-package alt-navigation
+  :ensure nil
+  :bind (("M-n" . forward-paragraph)
+         ("M-p" . backward-paragraph)
+         ("M-j" . backward-char)
+         ("M-k" . previous-line)
+         ("M-l" . next-line)
+         ("M-;" . forward-char)))
+
+(defun use-project-as-frame-title ()
+  (setq frame-title-format
+    '((:eval
+       (let ((project-name (projectile-project-name)))
+         (unless (string= "-" project-name)
+           (format "emacs - %s" project-name)))))))
 
 (use-package emacs
   :hook (prog-mode . default-prog-mode-setup)
-  :bind (
-         ("C-x O" . prev-window)
+  :bind (("C-x O" . prev-window)
          ("M-[" . backward-paragraph)
          ("M-]" . forward-paragraph))
   :config
+  (use-project-as-frame-title)
   (defun default-prog-mode-setup ()
     (whitespace-mode)
     (display-line-numbers-mode)
@@ -143,11 +165,13 @@
   (setq whitespace-line-column 160)
   (setq pop-up-frames nil)
   (setq mouse-wheel-follow-mouse t)
-  (setq require-final-newline nil)
+  (setq require-final-newline t)
   (setq mode-require-final-newline nil)
   (setq auto-save-default nil)
   (setq make-backup-files nil)
   (setq create-lockfiles nil)
+  ;;
+  (setq gc-cons-threshold 1600000)
   ;;
   (setq-default line-spacing 2)
   (setq-default indent-tabs-mode nil)
@@ -160,42 +184,48 @@
     (set-fontset-font
      t 'symbol (font-spec :family "Noto Color Emoji") nil 'prepend)))
 
+(use-package vterm
+  :bind (("M-`" . vterm)))
+
 (use-package yasnippet
+  :diminish (yas-global-mode yas-minor-mode)
   :config (yas-global-mode))
 
-(use-package flycheck)
+(use-package flycheck
+  :diminish flycheck-mode)
 
 (use-package company
+  :diminish company-mode
   :hook (prog-mode . company-mode))
 
 (use-package diff-hl
   :hook (prog-mode . diff-hl-mode))
 
-(use-package nyan-mode
-  :config (nyan-mode))
+;; (use-package nyan-mode
+;;   :config (nyan-mode))
 
 (use-package treemacs-all-the-icons)
 
 (use-package dashboard
-  :config (progn
-            (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
-            (setq dashboard-week-agenda t)
-            (setq dashboard-center-content t)
-            (setq org-agenda-files '())
-            (setq dashboard-filter-agenda-entry 'dashboard-filter-agenda-by-time)
-            (setq dashboard-items '((recents  . 15)
-                                    (projects . 10)
-                                    (agenda .  10)))
-            (setq dashboard-set-heading-icons t)
-            (setq dashboard-set-file-icons t)
-            (dashboard-setup-startup-hook)))
+  :config
+  (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+  (setq dashboard-week-agenda t)
+  (setq dashboard-center-content t)
+  (setq org-agenda-files '())
+  (setq dashboard-filter-agenda-entry 'dashboard-filter-agenda-by-time)
+  (setq dashboard-items '((recents  . 15)
+                          (projects . 10)
+                          (agenda .  10)))
+  (setq dashboard-set-heading-icons t)
+  (setq dashboard-set-file-icons t)
+  (dashboard-setup-startup-hook))
 
 (use-package centaur-tabs
-  :config (progn
-            (centaur-tabs-mode t)
-            (setq centaur-tabs-set-icons nil)
-            (setq centaur-tabs-style "bar")
-            (setq centaur-tabs-modified-marker "*")))
+  :config
+  (centaur-tabs-mode t)
+  (setq centaur-tabs-set-icons nil)
+  (setq centaur-tabs-style "bar")
+  (setq centaur-tabs-modified-marker "*"))
 
 (use-package magit
   :bind ("C-x g" . magit-status))
@@ -206,13 +236,20 @@
   (completion-category-overrides '((file (styles basic partial-completion)))))
 
 (use-package ivy
+  :diminish ivy-mode
   :after orderless
   :config
   (ivy-mode 1)
   (setq ivy-re-builders-alist '((t . orderless-ivy-re-builder)))
   (add-to-list 'ivy-highlight-functions-alist '(orderless-ivy-re-builder . orderless-ivy-highlight)))
 
+(use-package pdf-tools
+  :magic ("%PDF" . pdf-view-mode)
+  :config
+  (pdf-tools-install :no-query))
+
 (use-package git-gutter
+  :diminish git-gutter-mode
   :hook (prog-mode . git-gutter-mode)
   :config
   (setq git-gutter:update-interval 0.02))
@@ -231,6 +268,7 @@
 (use-package projectile-ripgrep)
 (use-package projectile
   :after ripgrep projectile-ripgrep
+  :diminish projectile-mode
   :bind-keymap ("C-c p" . projectile-command-map)
   :config
   (projectile-mode 1)
@@ -249,16 +287,26 @@
   :config (treemacs-icons-dired-mode))
 
 (use-package which-key
+  :diminish which-key-mode
   :config (which-key-mode))
 
 (use-package lsp-mode
+  :diminish lsp-mode
   :init (setq lsp-keymap-prefix "C-c l")
   :hook ((typescript-mode . lsp-mode))
-  :commands lsp)
+  :commands lsp
+  :config
+  (setq lsp-headerline-breadcrumb-icons-enable nil))
 
 (use-package expand-region
   :bind (("C-=" . er/expand-region)
          ("C--" . er/contract-region)))
+
+(use-package why-this
+  :bind ("C-x y" . why-this)
+  :config
+  (setq why-this-idle-delay 0.1)
+  (set-face-foreground 'why-this-face (face-attribute 'font-lock-comment-face :foreground)))
 
 (use-package sudo-edit
   :bind ("C-c C-r" . sudo-edit))
@@ -272,20 +320,6 @@
          ("C-c C-<" . mc/mark-all-like-this))
   :config (define-key mc/keymap (kbd "<return>") nil))
 
-(use-package diminish
-  :config (progn
-            (diminish 'projectile-mode)
-            (diminish 'lsp-mode)
-            (diminish 'ivy-mode)
-            (diminish 'eldoc-mode)
-            (diminish 'whitespace-mode)
-            (diminish 'which-key-mode)
-            (diminish 'flycheck-mode)
-            (diminish 'abbrev-mode)
-            (diminish 'company-mode)
-            (diminish 'yas-global-mode)
-            (diminish 'yas-minor-mode)))
-
 (use-package anki-editor
   :config (progn
             (setq anki-editor-create-decks t)
@@ -294,16 +328,14 @@
 ;; LANGUAGE ADDITIONS
 (add-to-list 'load-path "~/code/dotfiles/emacs/")
 (load "c.el")
-(load "lisp.el")
 (load "js-ts.el")
+;; (load "lisp.el") ;fails due to no slime/quicklisp
 
-(global-set-key (kbd "M-n") 'forward-paragraph)
-(global-set-key (kbd "M-p") 'backward-paragraph)
-;; set jkl; to be navigation keys; equivelant to hjkl but already on the home keys
-(global-set-key (kbd "M-j") 'backward-char)
-(global-set-key (kbd "M-k") 'previous-line)
-(global-set-key (kbd "M-l") 'next-line)
-(global-set-key (kbd "M-;") 'forward-char) ; overwrites 'comment-dwim'
+(global-set-key (kbd "C-<up>") 'scroll-down-line)
+(global-set-key (kbd "C-<down>") 'scroll-up-line)
+
+(setq org-clock-persist 'history)
+(org-clock-persistence-insinuate)
 
 ;; unset default arrow keys (temporarily until I'm used to `jkl;`')
 ;; (global-unset-key (kbd "<left>"))
