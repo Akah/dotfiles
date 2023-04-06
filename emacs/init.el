@@ -19,19 +19,18 @@
     (set-window-buffer next-win this-buf)
     (set-window-buffer this-win next-buf)))
 
-(custom-set-variables
- '(gnu-algorithm-priority "normal:-vers-tls1.3"))
-
-(setq package-check-signature nil)
-
 (require 'package)
-
-(add-to-list 'package-archives
-             '("elpa" . "https://elpa.gnu.org/packages/") t)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives
-             '("org" . "https://orgmode.org/elpa/") t)
+(add-to-list 'package-archives '("elpa" . "https://elpa.gnu.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
+(setq gnutls-algorithm-priority  "NORMAL:-VERS-TLS1.3"
+      package-enable-at-startup nil
+      ;; higher values are searched first:
+      package-archive-priorities '(("melpa"        . 200)
+                                   ("elpa"         . 100)
+                                   ("org"          . 75)
+                                   ("nongnu"       . 65)
+                                   ("gnu"          . 50)))
 
 (package-initialize)
 
@@ -94,12 +93,12 @@
                     (number-sequence 0 9))))
   (exwm-enable))
 
-(use-package diminish
-  :config
-  (diminish 'eldoc-mode)
-  (diminish 'whitespace-mode)
-  (diminish 'abbrev-mode)
-  (diminish 'ws-mode))
+;; builtin
+(use-package whitespace
+  :diminish (whitespace-mode))
+;; builtin
+(use-package eldoc
+  :diminish (eldoc-mode))
 
 (use-package doom-themes
   :ensure t
@@ -112,6 +111,8 @@
       (load-theme 'doom-gruvbox-light))
     (dark-mode))
 
+;; not actually a package but a nice way to group specific keybindings and
+;; actually bind them
 (use-package alt-navigation
   :ensure nil
   :bind (("M-n" . forward-paragraph)
@@ -184,8 +185,17 @@
     (set-fontset-font
      t 'symbol (font-spec :family "Noto Color Emoji") nil 'prepend)))
 
+
 (use-package vterm
-  :bind (("M-`" . vterm)))
+  :preface
+  (defun my/vterm ()
+    (interactive)
+    (if (one-window-p)
+        (split-window-horizontally))
+    (vterm)
+    (swap-vertical-buffers)
+    (other-window 1)
+  :bind (("M-ESC" . my/vterm))))
 
 (use-package yasnippet
   :diminish (yas-global-mode yas-minor-mode)
@@ -293,7 +303,6 @@
 (use-package lsp-mode
   :diminish lsp-mode
   :init (setq lsp-keymap-prefix "C-c l")
-  :hook ((typescript-mode . lsp-mode))
   :commands lsp
   :config
   (setq lsp-headerline-breadcrumb-icons-enable nil))
