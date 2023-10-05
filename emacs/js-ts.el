@@ -42,5 +42,5 @@
                                 (string-equal "ts" (file-name-extension buffer-file-name)))
                         (lsp-mode)
                         (local-set-key (kbd "C-c C-c" #'compile))
-                        (flycheck-add-mode 'typescript-tslint 'webmode))))
+                        (flycheck-add-mode 'eslint 'webmode))))
   :commands web-mode)

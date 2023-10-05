@@ -1,8 +1,10 @@
+(add-to-list 'image-types 'svg)
+
 (defadvice load-theme
     (before theme-dont-propagate activate)
   (mapc #'disable-theme custom-enabled-themes))
 
-(defun emacs ()
+(defun zzemacs ()
   (interactive)
   (find-file "~/code/dotfiles/emacs/init.el"))
 
@@ -139,7 +141,8 @@
   (defun default-prog-mode-setup ()
     (whitespace-mode)
     (display-line-numbers-mode)
-    (column-number-mode))
+    (column-number-mode)
+    (add-hook 'focus-out-hook 'garbage-collect))
   (defun prev-window ()
     (interactive)
     (other-window -1))
@@ -149,6 +152,10 @@
   (defun monitor ()
     (interactive)
     (set-face-attribute 'default nil :height 90))
+  (defun mac-laptop ()
+    (interactive)
+    (set-face-attribute 'default nil :height 110))
+  (mac-laptop)
   (defalias 'open 'find-file)
   (defalias 'openo 'find-file-other-window)
   (delete-selection-mode 1)
@@ -158,8 +165,9 @@
   (tool-bar-mode 0)
   (scroll-bar-mode 0)
   (global-auto-revert-mode 1)
-  (set-face-attribute 'default nil :height 90)
   (set-fontset-font "fontset-default" 'cyrillic "DejaVu Sans Mono")
+  (setq visible-bell nil)
+  (setq ring-bell-function 'ignore)
   (setq use-package-always-ensure t)
   (setq backup-directory-alist `(("." . ,(expand-file-name "tmp/backups/" user-emacs-directory))))
   (setq read-file-name-completion-ignore-case t)
@@ -172,6 +180,8 @@
   (setq make-backup-files nil)
   (setq create-lockfiles nil)
   ;;
+  (setq warning-minimum-level :emergency)
+  ;;
   (setq gc-cons-threshold 1600000)
   ;;
   (setq-default line-spacing 2)
@@ -183,8 +193,10 @@
   ;; enable emojis: requires font-noto-color-emoji package
   (when (member "Noto Color Emoji" (font-family-list))
     (set-fontset-font
-     t 'symbol (font-spec :family "Noto Color Emoji") nil 'prepend)))
-
+     t 'symbol (font-spec :family "Noto Color Emoji") nil 'prepend))
+  (when (eq system-type 'darwin)
+    (menu-bar-mode t))
+  (server-start))
 
 (use-package vterm
   :preface
@@ -195,7 +207,14 @@
     (vterm)
     (swap-vertical-buffers)
     (other-window 1)
-  :bind (("M-ESC" . my/vterm))))
+    :bind (("M-ESC" . my/vterm))))
+
+(use-package rainbow-mode
+  :diminish rainbow-mode
+  :hook (prog-mode . rainbow-mode)
+  :config
+  (setq rainbow-html-colors-major-mode-list
+        '(html-mode css-mode php-mode nxml-mode xml-mode web-mode)))
 
 (use-package yasnippet
   :diminish (yas-global-mode yas-minor-mode)
@@ -206,15 +225,18 @@
 
 (use-package company
   :diminish company-mode
-  :hook (prog-mode . company-mode))
+  :hook (prog-mode . company-mode)
+  :config
+  (setq company-idle-delay 100)
+  (setq company-minimum-prefix-length 1))
 
 (use-package diff-hl
   :hook (prog-mode . diff-hl-mode))
 
-;; (use-package nyan-mode
-;;   :config (nyan-mode))
+(use-package all-the-icons)
 
-(use-package treemacs-all-the-icons)
+(use-package treemacs-all-the-icons
+  :after (treemacs all-the-icons))
 
 (use-package dashboard
   :config
@@ -239,6 +261,9 @@
 
 (use-package magit
   :bind ("C-x g" . magit-status))
+
+(use-package treemacs-magit
+  :after (treemacs magit))
 
 (use-package orderless
   :custom
@@ -301,7 +326,7 @@
   :config (which-key-mode))
 
 (use-package lsp-mode
-  :diminish lsp-mode
+  ;; :diminish lsp-mode
   :init (setq lsp-keymap-prefix "C-c l")
   :commands lsp
   :config
