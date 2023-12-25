@@ -21,6 +21,28 @@
     (set-window-buffer next-win this-buf)
     (set-window-buffer this-win next-buf)))
 
+(defun revert-buffer-after-save ()
+  "Revert buffer after saving to correct syntax highlighting"
+  (when (not (buffer-modified-p))
+    (revert-buffer t t)
+    (message "saved with revert")))
+
+(defun up-scroll ()
+  "move cursor up one line and scroll the screen with it"
+  (interactive)
+  (unless (minibuffer-window-active-p (selected-window))
+    (scroll-down-line))
+  (previous-line))
+
+(defun down-scroll ()
+  "move cursor down one line and scroll the screen with it"
+  (interactive)
+  (unless (minibuffer-window-active-p (selected-window))
+    (scroll-up-line))
+  (next-line))
+
+(add-hook 'after-save-hook 'revert-buffer-after-save)
+
 (require 'package)
 (add-to-list 'package-archives '("elpa" . "https://elpa.gnu.org/packages/") t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -97,21 +119,32 @@
 
 ;; builtin
 (use-package whitespace
-  :diminish (whitespace-mode))
+  :diminish (whitespace-mode -1))
 ;; builtin
 (use-package eldoc
   :diminish (eldoc-mode))
 
-(use-package doom-themes
-  :ensure t
+;; (use-package doom-themes
+;;   :ensure t
+;;   :config
+;;     (defun dark-mode ()
+;;       (interactive)
+;;       (load-theme 'doom-dracula))
+;;     (defun light-mode ()
+;;       (interactive)
+;;       (load-theme 'doom-gruvbox-light))
+;;     (dark-mode))
+
+(use-package vscode-dark-plus-theme
   :config
-    (defun dark-mode ()
-      (interactive)
-      (load-theme 'doom-dracula))
-    (defun light-mode ()
-      (interactive)
-      (load-theme 'doom-gruvbox-light))
-    (dark-mode))
+  (defun dark-mode ()
+    (interactive)
+    (load-theme 'vscode-dark-plus t))
+  (dark-mode))
+
+;; (use-package centered-cursor-mode
+;;   :diminish (centered-cursor-mode)
+;;   :config (global-centered-cursor-mode))
 
 ;; not actually a package but a nice way to group specific keybindings and
 ;; actually bind them
@@ -135,11 +168,12 @@
   :hook (prog-mode . default-prog-mode-setup)
   :bind (("C-x O" . prev-window)
          ("M-[" . backward-paragraph)
-         ("M-]" . forward-paragraph))
+         ("M-]" . forward-paragraph)
+         ("s-<up>" . up-scroll)
+         ("s-<down>" . down-scroll))
   :config
   (use-project-as-frame-title)
   (defun default-prog-mode-setup ()
-    (whitespace-mode)
     (display-line-numbers-mode)
     (column-number-mode)
     (add-hook 'focus-out-hook 'garbage-collect))
@@ -186,10 +220,10 @@
   ;;
   (setq-default line-spacing 2)
   (setq-default indent-tabs-mode nil)
-  (setq-default whitespace-display-mappings
-                '((space-mark 32 [183] [46])
-                  (space-mark 160 [164] [95])
-                  (tab-mark 9 [187 9] [92 9])))
+  ;; (setq-default whitespace-display-mappings
+  ;;               '((space-mark 32 [183] [46])
+  ;;                 (space-mark 160 [164] [95])
+  ;;                 (tab-mark 9 [187 9] [92 9])))
   ;; enable emojis: requires font-noto-color-emoji package
   (when (member "Noto Color Emoji" (font-family-list))
     (set-fontset-font
@@ -216,9 +250,9 @@
   (setq rainbow-html-colors-major-mode-list
         '(html-mode css-mode php-mode nxml-mode xml-mode web-mode)))
 
-(use-package yasnippet
-  :diminish (yas-global-mode yas-minor-mode)
-  :config (yas-global-mode))
+;; (use-package yasnippet
+;;   :diminish (yas-global-mode yas-minor-mode)
+;;   :config (yas-global-mode))
 
 (use-package flycheck
   :diminish flycheck-mode)
@@ -227,7 +261,7 @@
   :diminish company-mode
   :hook (prog-mode . company-mode)
   :config
-  (setq company-idle-delay 100)
+  (setq company-idle-delay 0.5)
   (setq company-minimum-prefix-length 1))
 
 (use-package diff-hl
@@ -307,7 +341,7 @@
   :bind-keymap ("C-c p" . projectile-command-map)
   :config
   (projectile-mode 1)
-  (add-to-list 'projectile-globally-ignored-directories "node_modules")
+  (add-to-list 'projectile-globally-ignored-directories "^\\.node_modules$")
   (setq projectile-sort-order 'recentf)
   (setq projectile-enable-caching t))
 
@@ -326,7 +360,7 @@
   :config (which-key-mode))
 
 (use-package lsp-mode
-  ;; :diminish lsp-mode
+  :diminish lsp-mode
   :init (setq lsp-keymap-prefix "C-c l")
   :commands lsp
   :config
@@ -354,6 +388,8 @@
          ("C-c C-<" . mc/mark-all-like-this))
   :config (define-key mc/keymap (kbd "<return>") nil))
 
+(use-package consult)
+
 (use-package anki-editor
   :config (progn
             (setq anki-editor-create-decks t)
@@ -364,9 +400,6 @@
 (load "c.el")
 (load "js-ts.el")
 ;; (load "lisp.el") ;fails due to no slime/quicklisp
-
-(global-set-key (kbd "C-<up>") 'scroll-down-line)
-(global-set-key (kbd "C-<down>") 'scroll-up-line)
 
 (setq org-clock-persist 'history)
 (org-clock-persistence-insinuate)
@@ -384,3 +417,5 @@
 ;; (global-unset-key (kbd "<M-right>"))
 ;; (global-unset-key (kbd "<M-up>"))
 ;; (global-unset-key (kbd "<M-down>"))
+
+(global-set-key (kbd "M-.") 'lsp-find-definition)

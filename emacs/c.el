@@ -8,3 +8,7 @@
             (lsp)
             (setq c-default-style "linux"
                   c-basic-offset 4)))
+
+(use-package nasm-mode
+  :hook (asm-mode . nasm-mode)
+  :bind ("C-c C-c" . compile))
