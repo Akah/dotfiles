@@ -16,6 +16,8 @@
                       ;; (setq electric-pair-pairs (append electric-pair-pairs '((?' . ?'))))
                       (setq column-enforce-column 160)
                       (setq whitespace-line-column 160)
+                      (setq comment-start "\/\/"
+                            comment-end "")
                       (flycheck-mode 1)
                       (eldoc-mode 1)
                       (when (or (string-equal "tsx" (file-name-extension buffer-file-name))

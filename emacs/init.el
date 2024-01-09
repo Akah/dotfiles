@@ -119,7 +119,7 @@
 
 ;; builtin
 (use-package whitespace
-  :diminish (whitespace-mode -1))
+  :diminish (whitespace-mode nil))
 ;; builtin
 (use-package eldoc
   :diminish (eldoc-mode))
@@ -189,7 +189,6 @@
   (defun mac-laptop ()
     (interactive)
     (set-face-attribute 'default nil :height 110))
-  (mac-laptop)
   (defalias 'open 'find-file)
   (defalias 'openo 'find-file-other-window)
   (delete-selection-mode 1)
@@ -220,17 +219,20 @@
   ;;
   (setq-default line-spacing 2)
   (setq-default indent-tabs-mode nil)
-  ;; (setq-default whitespace-display-mappings
-  ;;               '((space-mark 32 [183] [46])
-  ;;                 (space-mark 160 [164] [95])
-  ;;                 (tab-mark 9 [187 9] [92 9])))
+  (setq-default whitespace-display-mappings
+                '((space-mark 32 [183] [46])
+                  (space-mark 160 [164] [95])
+                  (tab-mark 9 [187 9] [92 9])))
   ;; enable emojis: requires font-noto-color-emoji package
   (when (member "Noto Color Emoji" (font-family-list))
     (set-fontset-font
      t 'symbol (font-spec :family "Noto Color Emoji") nil 'prepend))
-  (when (eq system-type 'darwin)
-    (menu-bar-mode t))
-  (server-start))
+  (if (eq system-type 'darwin)
+      (progn
+        (mac-laptop)
+        (when (display-graphic-p)
+          (menu-bar-mode t)))
+    (server-start)))
 
 (use-package vterm
   :preface
@@ -257,7 +259,7 @@
 (use-package flycheck
   :diminish flycheck-mode)
 
-(use-package company
+(use-package company 
   :diminish company-mode
   :hook (prog-mode . company-mode)
   :config
@@ -364,7 +366,10 @@
   :init (setq lsp-keymap-prefix "C-c l")
   :commands lsp
   :config
-  (setq lsp-headerline-breadcrumb-icons-enable nil))
+  (setq lsp-headerline-breadcrumb-icons-enable nil)
+  (setq read-process-output-max (* 1024 1024))
+  (add-hook 'focus-out-hook 'garbage-collect)
+  (fset #'jsonrpc--log-event #'ignore))
 
 (use-package expand-region
   :bind (("C-=" . er/expand-region)
@@ -389,11 +394,6 @@
   :config (define-key mc/keymap (kbd "<return>") nil))
 
 (use-package consult)
-
-(use-package anki-editor
-  :config (progn
-            (setq anki-editor-create-decks t)
-            (setq anki-editor-org-tags-as-anki-tags t)))
 
 ;; LANGUAGE ADDITIONS
 (add-to-list 'load-path "~/code/dotfiles/emacs/")
