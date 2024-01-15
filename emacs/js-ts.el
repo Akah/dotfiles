@@ -1,9 +1,16 @@
 (use-package dap-mode
   :ensure t)
 
-;;for react-native
+(use-package objc-mode
+  :mode (("\\.mm" . objc-mode)))
+
+(use-package swift-mode)
+
+(use-package kotlin-mode)
+
 (use-package groovy-mode
   :mode (("\\.gradle\\'" . groovy-mode)))
+
 
 (use-package web-mode
   :mode (("\\.js\\'"   . web-mode)
