@@ -1,18 +1,8 @@
 (use-package dap-mode
   :ensure t)
 
-(use-package objc-mode
-  :mode (("\\.mm" . objc-mode)))
-
-(use-package swift-mode)
-
-(use-package kotlin-mode)
-
-(use-package groovy-mode
-  :mode (("\\.gradle\\'" . groovy-mode)))
-
-
 (use-package web-mode
+  :ensure t
   :mode (("\\.js\\'"   . web-mode)
          ("\\.jsx\\'"  . web-mode)
          ("\\.ts\\'"   . web-mode)
@@ -30,6 +20,6 @@
                       (when (or (string-equal "tsx" (file-name-extension buffer-file-name))
                                 (string-equal "ts" (file-name-extension buffer-file-name)))
                         (lsp-mode)
-                        (local-set-key (kbd "C-c C-c" #'compile))
+                        ;(local-set-key (kbd "C-c C-c" #'compile))
                         (flycheck-add-mode 'eslint 'webmode))))
   :commands web-mode)
