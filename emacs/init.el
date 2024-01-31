@@ -1,12 +1,16 @@
-(eval-and-compile
-  (customize-set-variable
-   'package-archives '(("org" . "https://orgmode.org/elpa/")
-                       ("melpa" . "https://melpa.org/packages/")
-                       ("gnu" . "https://elpa.gnu.org/packages/")))
-  (package-initialize)
-  (unless (package-installed-p 'use-package)
-    (package-refresh-contents)
-    (package-install 'use-package)))
+(customize-set-variable
+ 'package-archives '(("org" . "https://orgmode.org/elpa/")
+                     ("melpa" . "https://melpa.org/packages/")
+                     ("gnu" . "https://elpa.gnu.org/packages/")))
+
+(package-initialize)
+
+;; (unless (package-installed-p 'use-package)
+;;   (package-refresh-contents)
+;;   (package-install 'use-package))
+
+(require 'use-package-ensure)
+(setq use-package-always-ensure t)
 
 (defun default-prog-mode-setup ()
   (display-line-numbers-mode)
@@ -49,7 +53,7 @@
 (defun monitor ()
   (interactive)
   (if (eq system-type 'darwin)
-      (set-face-attribute 'default nil :height 100)
+      (set-face-attribute 'default nil :height 105)
     (set-face-attribute 'default nil :height 100)))
 
 (use-package emacs
@@ -58,21 +62,30 @@
          ("M-[" . backward-paragraph)
          ("M-]" . forward-paragraph)
          ("s-<up>" . up-scroll)
-         ("s-<down>" . down-scroll))
+         ("s-<down>" . down-scroll)
+         ("C-x r" . revert-buffer))
   :config
   (monitor)
   (delete-selection-mode t)
   (tool-bar-mode 0)
   (menu-bar-mode 0)
   (scroll-bar-mode 0)
+  (electric-pair-mode)
   (setq gc-cons-threshold 100000000
-	read-process-output-max (* 1024 1024) ;; 1mb
-	auto-save-default nil
-	make-backup-files nil
-	create-lockfiles nil
-	use-package-always-ensure t
-	;; use-package-always-defer t
-	warning-minimum-level :emergency))
+        read-process-output-max (* 1024 1024) ;; 1mb
+        require-final-newline t
+        ring-bell-function nil
+        auto-save-default nil
+        make-backup-files nil
+        create-lockfiles nil
+        use-package-always-ensure t
+        use-package-always-defer nil
+        warning-minimum-level :emergency)
+  (setq-default indent-tabs-mode nil
+                line-spacing 2)
+  (when (eq system-type 'darwin)
+    (menu-bar-mode 1)
+    (server-start)))
 
 (use-package diminish)
 
@@ -104,7 +117,6 @@
   (treemacs-load-theme "all-the-icons"))
 
 (use-package dashboard
-  :defer nil
   :config
   (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
   (setq dashboard-week-agenda t)
@@ -118,25 +130,41 @@
   (setq dashboard-set-file-icons t)
   (dashboard-setup-startup-hook))
 
-(use-package doom-themes
-  :defer nil
-  :config
-  (defun dark-mode ()
-    (interactive)
-    (load-theme 'doom-dracula t))
-  (defun light-mode ()
-    (interactive)
-    (load-theme 'doom-gruvbox-light t))
-  (dark-mode))
+((lambda ()
+   (use-package doom-themes)
+   (use-package vscode-dark-plus-theme)
+   (defun disable-all-themes ()
+     "disable all active themes."
+     (dolist (i custom-enabled-themes)
+       (disable-theme i))
+     ;;(set-face-attribute 'whitespace-space nil :background nil :foreground "gray90")
+     )
+   (defun light-mode ()
+     (interactive)
+     (disable-all-themes)
+     (if (eq system-type 'darwin)
+         (load-theme 'doom-gruvbox-light t)))
+   (defun dark-mode ()
+     (interactive)
+     (disable-all-themes)
+     (if (eq system-type 'darwin)
+         (load-theme 'vscode-dark-plus t)
+       (load-theme 'doom-dracula t)))
+   (dark-mode)))
 
 (use-package centaur-tabs
+  :bind (("C-x c" . centaur-tabs-mode))
   :config
-  (centaur-tabs-mode t)
   (setq centaur-tabs-set-icons nil)
   (setq centaur-tabs-style "bar")
   (setq centaur-tabs-modified-marker "*"))
 
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;; general software ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (use-package whitespace
+;;   :diminish whitespace-mode
+;;   :config
+;;   (set-face-attribute 'whitespace-space nil :background nil :foreground nil))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; general software ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package vterm
   :preface
   (defun my/vterm ()
@@ -153,10 +181,9 @@
   :config
   (pdf-tools-install :no-query))
 
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; git stuff ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; git stuff ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package magit
-  :defer nil
   :bind ("C-x g" . magit-status))
 
 (use-package why-this
@@ -164,17 +191,16 @@
   :config
   (setq why-this-idle-delay 0.5)
   (set-face-foreground why-this-face
-		       (face-attribute font-lock-comment-face :foreground)))
+                       (face-attribute font-lock-comment-face :foreground)))
 
 (use-package git-gutter
-  :defer nil
   :diminish git-gutter-mode
   :hook (prog-mode . git-gutter-mode)
   :config
   (setq git-gutter:update-interval 0.02))
 
 (use-package git-gutter-fringe
-  :defer nil
+  :after (git-gutter)
   :config
   (define-fringe-bitmap
     'git-gutter-fr:added [224] nil nil '(center repeated))
@@ -195,23 +221,21 @@
   :config
   (global-company-mode t)
   (setq company-minimum-prefix-length 1
-	company-idle-delay 0.1))
+        company-idle-delay 0.1))
 
 (use-package lsp-mode
-  :diminish (lsp-mode lsp-lens-mode)
+  :diminish (lsp-mode)
   :init (setq lsp-keymap-prefix "C-c l")
   :hook ((web-mode . lsp-deferred)
-	 (lsp-mode . lsp-enable-which-key-integration))
+         (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp-deferred lsp
   :config
   (setq lsp-log-io nil)
   (setq lsp-restart 'auto-restart)
-  (setq lsp-ui-sideline-show-diagnostics nil)
-  (setq lsp-ui-sideline-show-hover nil)
-  (setq lsp-ui-sideline-show-code-actions nil))
+  (add-to-list 'lsp-file-watch-ignored-directories "\\.node_modules\\"))
 
-(use-package lsp-ui
-  :commands lsp-ui-mode)
+;; (use-package lsp-ui
+;;   :commands lsp-ui-mode)
 
 (use-package eldoc
   :diminish eldoc-mode)
@@ -245,7 +269,7 @@
 
 (use-package expand-region
   :bind (("C-=" . er/expand-region)
-	 ("C--" . er/contract-region)))
+         ("C--" . er/contract-region)))
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;; work specific stuff ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -261,8 +285,8 @@
 
 (use-package web-mode
   :mode (("\\.js\\'" . web-mode)
-	 ("\\.jsx\\'" .  web-mode)
-	 ("\\.ts\\'" . web-mode)
-	 ("\\.tsx\\'" . web-mode)
-	 ("\\.html\\'" . web-mode))
+         ("\\.jsx\\'" .  web-mode)
+         ("\\.ts\\'" . web-mode)
+         ("\\.tsx\\'" . web-mode)
+         ("\\.html\\'" . web-mode))
   :commands web-mode)
