@@ -56,6 +56,19 @@
       (set-face-attribute 'default nil :height 105)
     (set-face-attribute 'default nil :height 100)))
 
+(defun swap-substrings (start end separator)
+  "Swap substrings around the selected region separated by SEPARATOR."
+  (interactive "r\nMEnter separator string: ")
+  (save-excursion
+    (goto-char start)
+    (when (search-forward separator end t)
+      (let ((first-substring (buffer-substring start (match-beginning 0)))
+            (second-substring (buffer-substring (match-end 0) end)))
+        (delete-region start end)
+        (insert second-substring)
+        (insert separator)
+        (insert first-substring)))))
+
 (use-package emacs
   :hook (prog-mode . default-prog-mode-setup)
   :bind (("C-x O" . prev-window)
@@ -63,7 +76,8 @@
          ("M-]" . forward-paragraph)
          ("s-<up>" . up-scroll)
          ("s-<down>" . down-scroll)
-         ("C-x r" . revert-buffer))
+         ("C-x r" . revert-buffer)
+         ("C-c s" . swap-substrings))
   :config
   (monitor)
   (delete-selection-mode t)
@@ -71,10 +85,12 @@
   (menu-bar-mode 0)
   (scroll-bar-mode 0)
   (electric-pair-mode)
-  (setq gc-cons-threshold 100000000
-        read-process-output-max (* 1024 1024) ;; 1mb
+  (put 'suspend-frame 'disabled t)
+  (setq debug-on-error nil
+        gc-cons-threshold 100000000
+        read-process-output-max (* 5 1024 1024) ;; 5mb
         require-final-newline t
-        ring-bell-function nil
+        ring-bell-function 'ignore
         auto-save-default nil
         make-backup-files nil
         create-lockfiles nil
@@ -216,31 +232,42 @@
 ;;   :diminish rainbow-mode
 ;;   :hook (prog-mode . rainbow-mode)
 
+(use-package ws-butler
+  :diminish ws-butler-mode
+  :hook (prog-mode . ws-butler-mode))
+
+(use-package flycheck
+  :diminish flycheck-mode)
+
 (use-package company
   :diminish company-mode
+  :hook (prog-mode . company-mode)
   :config
-  (global-company-mode t)
   (setq company-minimum-prefix-length 1
         company-idle-delay 0.1))
 
 (use-package lsp-mode
-  :diminish (lsp-mode)
+  :diminish lsp-mode lsp-lens-mode
   :init (setq lsp-keymap-prefix "C-c l")
   :hook ((web-mode . lsp-deferred)
          (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp-deferred lsp
   :config
   (setq lsp-log-io nil)
-  (setq lsp-restart 'auto-restart)
+  (setq lsp-auto-execute-action nil)
   (add-to-list 'lsp-file-watch-ignored-directories "\\.node_modules\\"))
 
-;; (use-package lsp-ui
-;;   :commands lsp-ui-mode)
+(use-package lsp-ui
+  :commands lsp-ui-mode
+  :config
+  (setq lsp-ui-sideline-enable t)
+  (setq lsp-ui-doc-enable nil)
+  (setq lsp-modeline-code-actions-enable nil))
 
 (use-package eldoc
   :diminish eldoc-mode)
 
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package sudo-edit
   :bind ("C-c C-r" . sudo-edit))
@@ -271,7 +298,7 @@
   :bind (("C-=" . er/expand-region)
          ("C--" . er/contract-region)))
 
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;; work specific stuff ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;; work specific stuff ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package kotlin-mode)
 
@@ -280,8 +307,8 @@
 (use-package groovy-mode
   :mode (("\\.gradle\\'" . groovy-mode)))
 
-(use-package objc-mode
-  :mode (("\\.mm" . objc-mode)))
+;; (use-package objc-mode
+;;   :mode (("\\.mm" . objc-mode)))
 
 (use-package web-mode
   :mode (("\\.js\\'" . web-mode)
@@ -289,4 +316,14 @@
          ("\\.ts\\'" . web-mode)
          ("\\.tsx\\'" . web-mode)
          ("\\.html\\'" . web-mode))
+  :bind (("C-c C-c" . compile))
   :commands web-mode)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package yasnippet
+  :diminish yas-minor-mode
+  :config (yas-global-mode t))
+
+(use-package autorevert
+  :diminish auto-revert-mode)
